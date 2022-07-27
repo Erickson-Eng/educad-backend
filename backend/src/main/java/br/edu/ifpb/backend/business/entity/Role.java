@@ -44,6 +44,13 @@ public class Role implements GrantedAuthority, Serializable {
     @LastModifiedDate
     private LocalDate modifiedDate;
 
+    public Role(RoleName roleName) {
+        this.roleName = roleName;
+    }
+    public Role(Long id, RoleName roleName) {
+        this.id = id;
+        this.roleName = roleName;
+    }
 
     public Long getId() {
         return id;

@@ -17,8 +17,13 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
+
+    private final Environment environment;
+
     @Autowired
-    private Environment environment;
+    public WebSecurityConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     private static final String[] PUBLIC_MATCHERS = {
             "/h2-console/**",

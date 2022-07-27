@@ -1,9 +1,6 @@
 package br.edu.ifpb.backend.business.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,6 +20,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "TB_USER")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Serializable {
@@ -39,12 +37,12 @@ public class User implements UserDetails, Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(name = "TB_USER_ROLES",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private List<Role> roles;
+    private List<Role> roles = new java.util.ArrayList<>();
 
 
     @Column(name = "created_date", updatable = false)
@@ -55,6 +53,13 @@ public class User implements UserDetails, Serializable {
     @LastModifiedDate
     private LocalDate modifiedDate;
 
+
+    public User(Long id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
