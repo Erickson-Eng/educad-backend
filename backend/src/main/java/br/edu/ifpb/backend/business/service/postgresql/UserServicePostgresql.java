@@ -41,6 +41,15 @@ public class UserServicePostgresql implements UserService {
                 .roles(Collections.singletonList(new Role(1L, null)))
                 .build();
     }
+
+    protected User buildSuperUser(UserRequest userRequest){
+        return User.builder()
+                .email(userRequest.getEmail())
+                .password(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
+                .username(userRequest.getUsername())
+                .roles(Collections.singletonList(new Role(2L, null)))
+                .build();
+    }
     protected boolean verifyIfExist(String usernameOrEmail){
         return userRepository.findByUsername(usernameOrEmail).isPresent();
     }
