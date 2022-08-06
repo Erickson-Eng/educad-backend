@@ -1,1 +1,1 @@
-# educad-backend
+# Projeto Educad backend
