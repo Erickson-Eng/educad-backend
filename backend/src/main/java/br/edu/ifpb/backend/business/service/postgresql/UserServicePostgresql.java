@@ -28,7 +28,7 @@ public class UserServicePostgresql implements UserService {
             if (!verifyIfExist(userRequest.getUsername())){
                 userRepository.save(entity);
             }
-        }catch (RuntimeException e){
+        } catch (RuntimeException e){
             e.printStackTrace();
         }
     }
