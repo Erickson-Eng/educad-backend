@@ -33,7 +33,7 @@ public class UserServicePostgresql implements UserService {
         }
     }
 
-    protected User createCommonUser(UserRequest userRequest){
+    protected User createCommonUser(UserRequest userRequest) {
         return User.builder()
                 .email(userRequest.getEmail())
                 .password(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
