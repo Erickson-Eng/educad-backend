@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,6 +42,28 @@ public class StudentServicePostgresql implements StudentService {
     }
 
     @Override
-    public void updateStudent(StudentRequest studentRequest) {
+    public void updateStudent(StudentRequest studentRequest, Long studentId) {
+        // String encryptedPassword = new BCryptPasswordEncoder().encode(studentRequest.getPassword());
+
+        Student studentById = null;
+
+        try {
+            studentById = studentRepository.findById(studentId).orElseThrow(
+                    () -> new Exception("Student by ID " + studentId + " does not exist.")
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        studentById.setBirthDate(studentRequest.getBirthDate());
+        studentById.setCpf(studentRequest.getCpf());
+        studentById.setName(studentRequest.getName());
+        studentById.setRg(studentRequest.getRg());
+
+        studentById.getUser().setEmail(studentRequest.getEmail());
+        studentById.getUser().setUsername(studentRequest.getUsername());
+        // studentById.getUser().setPassword(encryptedPassword);
+
+        studentRepository.save(studentById);
     }
 }

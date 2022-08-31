@@ -29,7 +29,8 @@ public class WebSecurityConfig {
             "/h2-console/**",
             "/swagger-ui.html/**",
             "/api/v1/register",
-            "/api/v1/student"
+            "/api/v1/student",
+            "/api/v1/student/**"
     };
 
     @Bean

@@ -48,9 +48,9 @@ public class StudentController {
     }
 
     @ApiOperation(value = "Update a student's data in the database")
-    @PutMapping
-    public ResponseEntity<Void> updateStudent(@RequestBody @Valid StudentRequest studentRequest) {
-        studentService.updateStudent(studentRequest);
+    @PutMapping("/{studentId}")
+    public ResponseEntity<Void> updateStudent(@RequestBody @Valid StudentRequest studentRequest, @PathVariable Long studentId) {
+        studentService.updateStudent(studentRequest, studentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
