@@ -11,39 +11,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StudentServicePostgresql implements StudentService {
     private StudentRepository studentRepository;
 
-    public ArrayList<Student> index() {
-        System.out.println("Testando rota de listagem de estudantes");
-
-        Student student1 = new Student(
-                1L,
-                new User(
-                        0L,
-                        "Usuário",
-                        "senha123",
-                        "usuario@gmail.com"),
-                "Usuário",
-                new Date(),
-                "12862305430",
-                "123456789");
-
-        ArrayList<Student> arrayList = new ArrayList<>();
-
-        arrayList.add(student1);
-        arrayList.add(student1);
-        arrayList.add(student1);
-
-        System.out.println(arrayList);
-
-        studentRepository.findAll();
-
-        return arrayList;
+    public List<Student> index() {
+        return studentRepository.findAll();
     }
 
     @Override
@@ -57,7 +33,7 @@ public class StudentServicePostgresql implements StudentService {
                 studentRequest.getBirthDate(),
                 studentRequest.getCpf(),
                 studentRequest.getRg());
-        
+
         studentRepository.save(entity);
     }
 
