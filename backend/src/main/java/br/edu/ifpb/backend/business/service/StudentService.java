@@ -8,5 +8,5 @@ import java.util.ArrayList;
 public interface StudentService {
     ArrayList<Student> index();
 
-    void createStudent(StudentRequest studentRequest);
+    void saveStudent(StudentRequest studentRequest);
 }

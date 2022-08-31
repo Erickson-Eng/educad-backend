@@ -7,19 +7,26 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Profile implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
+    @SequenceGenerator(name = "profile_seq")
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false, unique = true)
     private String name;
-    @Column()
     private Date birthDate;
-    @Column()
     private String cpf;
-    @Column()
     private String rg;
 }

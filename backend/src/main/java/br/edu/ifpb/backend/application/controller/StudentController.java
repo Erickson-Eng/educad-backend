@@ -34,9 +34,8 @@ public class StudentController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createStudent(@RequestBody @Valid
-                                                      StudentRequest studentRequest){
-        studentService.createStudent(studentRequest);
+    public ResponseEntity<Void> createStudent(@RequestBody @Valid StudentRequest studentRequest){
+        studentService.saveStudent(studentRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
