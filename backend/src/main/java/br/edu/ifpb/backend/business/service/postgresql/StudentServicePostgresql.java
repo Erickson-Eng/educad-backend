@@ -37,4 +37,12 @@ public class StudentServicePostgresql implements StudentService {
         studentRepository.save(entity);
     }
 
+    @Override
+    public void removeStudent(Long studentId) {
+        studentRepository.deleteById(studentId);
+    }
+
+    @Override
+    public void updateStudent(StudentRequest studentRequest) {
+    }
 }

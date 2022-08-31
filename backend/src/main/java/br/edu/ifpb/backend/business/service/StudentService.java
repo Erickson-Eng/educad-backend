@@ -9,4 +9,8 @@ public interface StudentService {
     List<Student> index();
 
     void saveStudent(StudentRequest studentRequest);
+
+    void removeStudent(Long studentId);
+
+    void updateStudent(StudentRequest studentRequest);
 }

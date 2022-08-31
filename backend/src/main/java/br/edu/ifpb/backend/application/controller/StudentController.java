@@ -23,6 +23,7 @@ import java.util.List;
 public class StudentController {
     private StudentService studentService;
 
+    @ApiOperation(value = "Get all students from the database")
     @GetMapping
     public List<Student> index() {
         return studentService.index();
@@ -34,8 +35,22 @@ public class StudentController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createStudent(@RequestBody @Valid StudentRequest studentRequest){
+    public ResponseEntity<Void> createStudent(@RequestBody @Valid StudentRequest studentRequest) {
         studentService.saveStudent(studentRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Delete a student from the database")
+    @DeleteMapping("/{studentId}")
+    public ResponseEntity<Void> removeStudent(@PathVariable Long studentId) {
+        studentService.removeStudent(studentId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Update a student's data in the database")
+    @PutMapping
+    public ResponseEntity<Void> updateStudent(@RequestBody @Valid StudentRequest studentRequest) {
+        studentService.updateStudent(studentRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
