@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -26,7 +27,7 @@ public abstract class Profile implements Serializable {
     private User user;
 
     private String name;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String cpf;
     private String rg;
 }

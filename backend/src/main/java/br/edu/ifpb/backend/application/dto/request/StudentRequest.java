@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -25,7 +26,7 @@ public class StudentRequest {
     @NotBlank
     private String name;
     @NotNull
-    private Date birthDate;
+    private LocalDate birthDate;
     @NotBlank
     private String cpf;
     @NotBlank

@@ -1,11 +1,11 @@
 package br.edu.ifpb.backend.business.entity;
 
 import javax.persistence.Entity;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Student extends Profile {
-    public Student(Long id, User user, String name, Date birthDate, String cpf, String rg) {
+    public Student(Long id, User user, String name, LocalDate birthDate, String cpf, String rg) {
         super(id, user, name, birthDate, cpf, rg);
     }
 
