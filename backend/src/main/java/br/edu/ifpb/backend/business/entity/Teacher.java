@@ -11,4 +11,9 @@ public class Teacher extends Profile {
 
     public Teacher() {
     }
+
+    @Override
+    public String toString() {
+        return String.format("Teacher{Name: %s, CPF: %s, RG: %s}", this.getName(), this.getCpf(), this.getRg());
+    }
 }
