@@ -50,7 +50,7 @@ public class DataSourceRunnable implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5, user6));
 
-        Student student1 = new Student(1L, user1, "Jõao", LocalDate.now(), "123456111", "11112345");
+        Student student1 = new Student(1L, user1, "João", LocalDate.now(), "123456111", "11112345");
         Student student2 = new Student(2L, user2, "Maria", LocalDate.now(), "123456222", "22212345");
         Student student3 = new Student(3L, user3, "Pedro", LocalDate.now(), "123456333", "33312345");
 

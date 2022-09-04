@@ -8,9 +8,9 @@ import java.util.List;
 public interface StudentService {
     List<Student> index();
 
-    void saveStudent(StudentRequest studentRequest);
+    boolean saveStudent(StudentRequest studentRequest);
 
-    void removeStudent(Long studentId);
+    boolean removeStudent(Long studentId);
 
-    void updateStudent(StudentRequest studentRequest, Long studentId);
+    boolean updateStudent(StudentRequest studentRequest, Long studentId);
 }

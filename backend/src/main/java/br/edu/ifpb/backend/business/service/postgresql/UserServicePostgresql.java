@@ -22,15 +22,33 @@ public class UserServicePostgresql implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public void registerUser(UserRequest userRequest) {
+    public User registerUser(UserRequest userRequest) {
         User entity  = createCommonUser(userRequest);
+
         try {
             if (!verifyIfExist(userRequest.getUsername())){
-                userRepository.save(entity);
+                return userRepository.save(entity);
             }
         } catch (RuntimeException e){
             e.printStackTrace();
         }
+
+        return null;
+    }
+
+    @Override
+    public boolean updateUser(UserRequest userRequest, Long userId) {
+        User userById = userRepository.findById(userId).orElseThrow(
+                () -> new RuntimeException("User with ID " + userId + "does not exist.")
+        );
+
+        userById.setUsername(userRequest.getUsername());
+        userById.setEmail(userRequest.getEmail());
+        userById.setPassword(new BCryptPasswordEncoder().encode(userRequest.getPassword()));
+
+        userRepository.save(userById);
+
+        return true;
     }
 
     protected User createCommonUser(UserRequest userRequest) {
