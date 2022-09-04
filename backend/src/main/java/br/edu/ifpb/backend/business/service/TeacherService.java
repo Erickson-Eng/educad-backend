@@ -8,9 +8,9 @@ import java.util.List;
 public interface TeacherService {
     List<Teacher> index();
 
-    void saveTeacher(TeacherRequest teacherRequest);
+    boolean saveTeacher(TeacherRequest teacherRequest);
 
-    void removeTeacher(Long teacherId);
+    boolean removeTeacher(Long teacherId);
 
-    void updateTeacher(TeacherRequest teacherRequest, Long teacherId);
+    boolean updateTeacher(TeacherRequest teacherRequest, Long teacherId);
 }

@@ -1,13 +1,13 @@
 package br.edu.ifpb.backend.business.service.postgresql;
 
 import br.edu.ifpb.backend.application.dto.request.TeacherRequest;
+import br.edu.ifpb.backend.application.dto.request.UserRequest;
 import br.edu.ifpb.backend.business.entity.Teacher;
 import br.edu.ifpb.backend.business.entity.User;
 import br.edu.ifpb.backend.business.service.TeacherService;
 import br.edu.ifpb.backend.repository.TeacherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,60 +17,64 @@ import java.util.List;
 public class TeacherServicePostgresql implements TeacherService {
     private TeacherRepository teacherRepository;
 
-    @Override
+    private UserServicePostgresql userServicePostgresql;
+
     public List<Teacher> index() {
         return teacherRepository.findAll();
     }
 
     @Override
-    public void saveTeacher(TeacherRequest teacherRequest) {
-        String encryptedPassword = new BCryptPasswordEncoder().encode(teacherRequest.getPassword());
+    public boolean saveTeacher(TeacherRequest teacherRequest) {
+        User userEntity = userServicePostgresql.registerUser(
+                new UserRequest(teacherRequest.getUsername(), teacherRequest.getPassword(), teacherRequest.getEmail())
+        );
 
-        Teacher entity = new Teacher(
-                1L,
-                new User(
-                        1L,
-                        teacherRequest.getUsername(),
-                        encryptedPassword,
-                        teacherRequest.getEmail()
-                ),
+        Teacher teacherEntity = new Teacher(
+                userEntity.getId(),
+                userEntity,
                 teacherRequest.getName(),
                 teacherRequest.getBirthDate(),
                 teacherRequest.getCpf(),
                 teacherRequest.getRg()
         );
 
-        teacherRepository.save(entity);
+        teacherRepository.save(teacherEntity);
+
+        return true;
     }
 
     @Override
-    public void removeTeacher(Long teacherId) {
-        teacherRepository.deleteById(teacherId);
-    }
-
-    @Override
-    public void updateTeacher(TeacherRequest teacherRequest, Long teacherId) {
-        // String encryptedPassword = new BCryptPasswordEncoder().encode(studentRequest.getPassword());
-
-        Teacher teacherById;
-
+    public boolean removeTeacher(Long teacherId) {
         try {
-            teacherById = teacherRepository.findById(teacherId).orElseThrow(
-                    () -> new Exception("Teacher by ID " + teacherId + " does not exist.")
-            );
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            if (teacherRepository.existsById(teacherId)) {
+                teacherRepository.deleteById(teacherId);
+                return true;
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean updateTeacher(TeacherRequest teacherRequest, Long teacherId) {
+        Teacher teacherById = teacherRepository.findById(teacherId).orElseThrow(
+                () -> new RuntimeException("Teacher by ID " + teacherId + " does not exist.")
+        );
 
         teacherById.setBirthDate(teacherRequest.getBirthDate());
         teacherById.setCpf(teacherRequest.getCpf());
         teacherById.setName(teacherRequest.getName());
         teacherById.setRg(teacherRequest.getRg());
 
-        teacherById.getUser().setEmail(teacherRequest.getEmail());
-        teacherById.getUser().setUsername(teacherRequest.getUsername());
-        // studentById.getUser().setPassword(encryptedPassword);
+        userServicePostgresql.updateUser(
+                new UserRequest(teacherRequest.getUsername(), teacherRequest.getPassword(), teacherRequest.getEmail()),
+                teacherById.getUser().getId()
+        );
 
         teacherRepository.save(teacherById);
+
+        return true;
     }
 }

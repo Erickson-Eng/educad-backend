@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequest {
-
     @NotBlank
     private String username;
     @NotBlank
