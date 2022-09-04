@@ -23,7 +23,6 @@ public class StudentServicePostgresql implements StudentService {
         return studentRepository.findAll();
     }
 
-    @Override
     public boolean saveStudent(StudentRequest studentRequest) {
         User userEntity = userServicePostgresql.registerUser(
                 new UserRequest(studentRequest.getUsername(), studentRequest.getPassword(), studentRequest.getEmail())
@@ -43,7 +42,6 @@ public class StudentServicePostgresql implements StudentService {
         return true;
     }
 
-    @Override
     public boolean removeStudent(Long studentId) {
         try {
             if (studentRepository.existsById(studentId)) {
@@ -57,7 +55,6 @@ public class StudentServicePostgresql implements StudentService {
         return false;
     }
 
-    @Override
     public boolean updateStudent(StudentRequest studentRequest, Long studentId) {
         Student studentById =  studentRepository.findById(studentId).orElseThrow(
                 () -> new RuntimeException("Student by ID " + studentId + " does not exist.")

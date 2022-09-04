@@ -23,7 +23,6 @@ public class TeacherServicePostgresql implements TeacherService {
         return teacherRepository.findAll();
     }
 
-    @Override
     public boolean saveTeacher(TeacherRequest teacherRequest) {
         User userEntity = userServicePostgresql.registerUser(
                 new UserRequest(teacherRequest.getUsername(), teacherRequest.getPassword(), teacherRequest.getEmail())
@@ -43,7 +42,6 @@ public class TeacherServicePostgresql implements TeacherService {
         return true;
     }
 
-    @Override
     public boolean removeTeacher(Long teacherId) {
         try {
             if (teacherRepository.existsById(teacherId)) {
@@ -57,7 +55,6 @@ public class TeacherServicePostgresql implements TeacherService {
         return false;
     }
 
-    @Override
     public boolean updateTeacher(TeacherRequest teacherRequest, Long teacherId) {
         Teacher teacherById = teacherRepository.findById(teacherId).orElseThrow(
                 () -> new RuntimeException("Teacher by ID " + teacherId + " does not exist.")

@@ -21,7 +21,6 @@ public class UserServicePostgresql implements UserService {
     private UserRepository userRepository;
     private UserMapper userMapper;
 
-    @Override
     public User registerUser(UserRequest userRequest) {
         User entity  = createCommonUser(userRequest);
 
@@ -36,7 +35,6 @@ public class UserServicePostgresql implements UserService {
         return null;
     }
 
-    @Override
     public boolean updateUser(UserRequest userRequest, Long userId) {
         User userById = userRepository.findById(userId).orElseThrow(
                 () -> new RuntimeException("User with ID " + userId + "does not exist.")
