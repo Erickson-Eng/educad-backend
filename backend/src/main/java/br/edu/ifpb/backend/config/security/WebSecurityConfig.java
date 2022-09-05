@@ -28,7 +28,11 @@ public class WebSecurityConfig {
     private static final String[] PUBLIC_MATCHERS = {
             "/h2-console/**",
             "/swagger-ui.html/**",
-            "/api/v1/register"
+            "/api/v1/register",
+            "/api/v1/student",
+            "/api/v1/student/**",
+            "/api/v1/teacher",
+            "/api/v1/teacher/**"
     };
 
     @Bean

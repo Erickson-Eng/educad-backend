@@ -37,12 +37,12 @@ public class User implements UserDetails, Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @ManyToMany(cascade = {CascadeType.REFRESH})
-    @JoinTable(name = "TB_USER_ROLES",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
-    private List<Role> roles = new java.util.ArrayList<>();
+//    @ManyToMany(cascade = {CascadeType.REFRESH})
+//    @JoinTable(name = "TB_USER_ROLES",
+//            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+//    )
+//    private List<Role> roles = new java.util.ArrayList<>();
 
 
     @Column(name = "created_date", updatable = false)
@@ -65,9 +65,14 @@ public class User implements UserDetails, Serializable {
         return id;
     }
 
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return this.roles;
+//    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+        return null;
     }
 
     @Override

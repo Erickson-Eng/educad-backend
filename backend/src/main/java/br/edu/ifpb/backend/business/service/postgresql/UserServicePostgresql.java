@@ -21,24 +21,48 @@ public class UserServicePostgresql implements UserService {
     private UserRepository userRepository;
     private UserMapper userMapper;
 
-    @Override
-    public void registerUser(UserRequest userRequest) {
-        User entity  = createCommonUser(userRequest);
-        try {
-            if (!verifyIfExist(userRequest.getUsername())){
-                userRepository.save(entity);
-            }
-        }catch (RuntimeException e){
-            e.printStackTrace();
-        }
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    protected User createCommonUser(UserRequest userRequest){
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User registerUser(UserRequest userRequest) {
+        User entity  = createCommonUser(userRequest);
+
+        try {
+            if (!verifyIfExist(userRequest.getUsername())){
+                return userRepository.save(entity);
+            }
+        } catch (RuntimeException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public boolean updateUser(UserRequest userRequest, Long userId) {
+        User userById = userRepository.findById(userId).orElseThrow(
+                () -> new RuntimeException("User with ID " + userId + "does not exist.")
+        );
+
+        userById.setUsername(userRequest.getUsername());
+        userById.setEmail(userRequest.getEmail());
+        userById.setPassword(new BCryptPasswordEncoder().encode(userRequest.getPassword()));
+
+        userRepository.save(userById);
+
+        return true;
+    }
+
+    protected User createCommonUser(UserRequest userRequest) {
         return User.builder()
                 .email(userRequest.getEmail())
                 .password(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
                 .username(userRequest.getUsername())
-                .roles(Collections.singletonList(new Role(1L, null)))
+//                .roles(Collections.singletonList(new Role(1L, null)))
                 .build();
     }
     protected boolean verifyIfExist(String usernameOrEmail){
