@@ -21,6 +21,14 @@ public class UserServicePostgresql implements UserService {
     private UserRepository userRepository;
     private UserMapper userMapper;
 
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
     public User registerUser(UserRequest userRequest) {
         User entity  = createCommonUser(userRequest);
 

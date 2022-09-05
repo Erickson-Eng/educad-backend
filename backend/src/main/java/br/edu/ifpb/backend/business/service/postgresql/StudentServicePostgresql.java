@@ -45,7 +45,9 @@ public class StudentServicePostgresql implements StudentService {
     public boolean removeStudent(Long studentId) {
         try {
             if (studentRepository.existsById(studentId)) {
+                Student student = studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
                 studentRepository.deleteById(studentId);
+                userServicePostgresql.deleteById(student.getUser().getId());
                 return true;
             }
         } catch (RuntimeException e) {
