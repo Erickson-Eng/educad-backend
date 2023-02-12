@@ -3,6 +3,7 @@ package br.com.ifpb.backend.business.entity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,24 +13,28 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
-@Table(name = "users")
-public class User implements Serializable {
-    private static final long serialVersionUID = 7792032644799725186L;
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "address")
+public class Address implements Serializable {
+    private static final long serialVersionUID = 247703941687283315L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(unique = true)
-    private String username;
-    private String password;
-
-    @Column(unique = true)
-    private String email;
-    @Column(unique = true)
-    private String cellphone;
+    @Column(nullable = false)
+    private String street;
+    private String complement;
+    @Column(nullable = false)
+    private String number;
+    @Column(nullable = false)
+    private String city;
+    @Column(nullable = false)
+    private String state;
+    @Column(nullable = false)
+    private String zipCode;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate

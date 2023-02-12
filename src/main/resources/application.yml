@@ -3,4 +3,6 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   flyway:
-    enabled: false
+    enabled: true
+  profiles:
+    active: prod
